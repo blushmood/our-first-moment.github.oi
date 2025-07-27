@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>our first moment</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  --gb-body: #fdeef4;         /* soft pink background */
+  --gb-shadow: #e8c7d2;       /* pink shadow */
+  --gb-border: #d58cab;       /* pink border */
+  --gb-screen: #fff5f9;       /* off-white pinkish screen */
+  --gb-btn: #d485a3;          /* button pink pastel */
+  --gb-btn-hover: #b86a8b;    /* darker pink hover */
+  --gb-accent: #f3aac5;       /* accent pink */
+}
+
+
+    body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(145deg, #e8fafa, #f1faf7, #f1fefb);
+  background-size: 400% 400%;
+  animation: bgFlow 20s ease infinite;
+  font-family: 'Press Start 2P', monospace;
+  user-select: none;
+  overflow: hidden;
+}
+
+@keyframes bgFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+.star {
+  position: fixed;
+  width: 70px;
+  height: 70px;
+  background: url('https://media.tenor.com/l5QyoFEXBiYAAAAm/pink-heart.webp') no-repeat center center;
+  background-size: contain;
+  pointer-events: none;
+  animation: float 10s linear infinite;
+  z-index: 1;
+  opacity: 0.8;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes float {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(100vh); }
+}
+
+
+    .gameboy {
+      position: relative;
+      width: 310px;
+      height: 500px;
+      background: var(--gb-body);
+      border: 4px solid var(--gb-border);
+      border-radius: 30px;
+      box-shadow: inset -10px -10px 30px var(--gb-shadow),
+                  inset 10px 10px 30px white,
+                  0 20px 50px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      z-index: 10;
+    }
+
+    .power {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      font-size: 0.6rem;
+      color: var(--gb-accent);
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .power::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle, red 40%, darkred 80%);
+      border-radius: 50%;
+      margin-right: 6px;
+      box-shadow: 0 0 8px red;
+      animation: power-pulse 1.5s infinite;
+    }
+    @keyframes power-pulse {
+      0%, 100% { box-shadow: 0 0 8px red; }
+      50% { box-shadow: 0 0 20px #ff6666; }
+    }
+
+    
+    .screen {
+      width: 300px;
+      height: 310px;
+      background: var(--gb-screen);
+      border: 6px inset #333;
+      border-radius: 15px;
+      margin: 50px 0 20px;
+      box-shadow: inset 0 0 20px #33001b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
+      flex-direction: column;
+      font-size: 0.8rem;
+      padding: 10px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 340px;
+      margin-bottom: 20px;
+      gap: 3px;
+    }
+
+    #backBtn {
+      margin-top: 15px;
+      background: #cc3333;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      cursor: pointer;
+      box-shadow: inset -2px -2px 5px #171717, inset 2px 2px 5px #000000, 0 4px 10px rgba(0,0,0,0.3);
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    #backBtn:hover {
+      background: #e64545;
+      box-shadow: inset -2px -2px 5px #181111, inset 2px 2px 5px #130e0e, 0 6px 12px rgba(0,0,0,0.4);
+      transform: translateY(-2px);
+    }
+
+    button.game-btn {
+      background: var(--gb-btn);
+      border: none;
+      border-radius: 12px;
+      padding: 10px 14px;
+      color: white;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      box-shadow: inset -2px -2px 5px #222, inset 2px 2px 5px #666;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button.game-btn:hover:not(:disabled) {
+      background: var(--gb-btn-hover);
+    }
+
+    button.game-btn:disabled {
+      background: #777;
+      color: #bbb;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .joystick-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .joystick {
+      position: relative;
+      width: 120px;
+      height: 120px;
+    }
+
+    .joy-btn {
+      position: absolute;
+      background: var(--gb-btn);
+      border: none;
+      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: inset -2px -2px 5px #222, inset 2px 2px 5px #666;
+      transition: background 0.2s;
+    }
+
+    .joy-btn:hover {
+      background: var(--gb-btn-hover);
+    }
+
+    .joy-btn[data-dir="up"] {
+      top: 0;
+      left: 40px;
+    }
+
+    .joy-btn[data-dir="down"] {
+      bottom: 0;
+      left: 40px;
+    }
+
+    .joy-btn[data-dir="left"] {
+      left: 0;
+      top: 40px;
+    }
+
+    .joy-btn[data-dir="right"] {
+      right: 0;
+      top: 40px;
+    }
+
+    .joy-center {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      width: 40px;
+      height: 40px;
+      background: var(--gb-btn);
+      border-radius: 8px;
+      pointer-events: none;
+      box-shadow: inset -2px -2px 5px #222, inset 2px 2px 5px #666;
+    }
+
+    .blink {
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+<script>
+  function createStar() {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.transform = `scale(${Math.random() * 0.6 + 0.4})`;
+    document.body.appendChild(star);
+    setTimeout(() => star.remove(), 15000); // hilang setelah 15 detik
+  }
+    window.onload = function () {
+  // Tambahkan banyak bintang saat page load
+  for (let i = 0; i < 30; i++) {
+    setTimeout(createStar, i * 300);
+  }
+
+  // Tambahkan bintang terus-menerus
+  setInterval(createStar, 1000);
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+  
+  <div class="stars">
+    <div class="star" style="top: 90%; left: 10%; animation-delay: 0s;"></div>
+    <div class="star" style="top: 95%; left: 60%; animation-delay: 2s;"></div>
+    <div class="star" style="top: 85%; left: 80%; animation-delay: 4s;"></div>
+    <div class="star" style="top: 98%; left: 30%; animation-delay: 1s;"></div>
+    <div class="star" style="top: 88%; left: 50%; animation-delay: 3s;"></div>
+  </div>
+
+
+  
+  <div class="gameboy">
+    <div class="power">power</div>
+
+    <div class="screen" id="screen"></div>
+
+    <div class="buttons">
+      <button class="game-btn" data-page="message">Message</button>
+      <button class="game-btn" data-page="date">Date</button>
+      <button class="game-btn" data-page="music">Music</button>
+      <button class="game-btn" data-page="tetris">Tetris</button>
+    </div>
+
+    <!-- D-Pad tetap fungsional -->
+    <div class="joystick-container">
+      <div class="joystick">
+        <button class="joy-btn" data-dir="up">▲</button>
+        <button class="joy-btn" data-dir="left">◀</button>
+        <button class="joy-btn" data-dir="right">▶</button>
+        <button class="joy-btn" data-dir="down">▼</button>
+        <div class="joy-center"></div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+  const screen = document.getElementById('screen');
+  const buttons = document.querySelectorAll('.game-btn');
+
+  function createBackButton() {
+    const btn = document.createElement('button');
+    btn.id = 'backBtn';
+    btn.textContent = 'Back';
+    btn.addEventListener('click', () => {
+      // Jika sedang main tetris, stop interval dan hapus event listener
+      if(typeof clearInterval === 'function' && dropInterval) {
+        clearInterval(dropInterval);
+        dropInterval = null;
+      }
+      document.removeEventListener('keydown', handleKey);
+      renderWelcomePage();
+    });
+    return btn;
+  }
+
+
+
+  // Halaman pertama: welcome message "Happy Birthday! Press Start Button"
+  // "Press Start Button" disini kita anggap tombol Message sebagai start.
+
+function renderWelcomePage() {
+  screen.innerHTML = `
+    <div class="page active" id="welcome" style="font-size: 1rem; line-height: 1.4; user-select:none;">
+      <p class="blink">alooww cewe nya ka zak!!!</p>
+      <p class="blink">Press button to start</p>
+    </div>
+  `;
+}
+
+function renderMessagePage() {
+  screen.innerHTML = `
+    <div class="page active" id="message" style="text-align:left; line-height: 1.6; padding:10px; font-family: 'Press Start 2P', monospace;"></div>
+  `;
+  screen.appendChild(createBackButton());
+
+  const messageText = [
+    "Di hari ini, tgl 1 Agustus 2025 akan menjadi hari special bagi kita,",
+    "Dan kebetulan hari ini adalah hari girlfriend day hehe...",
+    "Di hari ini kita sudah resmi untuk bisa lebih serius dan lebih berkomitmen dalam hubungan ya,",
+    "Semoga selalu bersama selamanya...aamiin"
+  ];
+
+  const container = document.getElementById("message");
+
+  let pIndex = 0;
+  let charIndex = 0;
+  let currentP;
+
+  function typeNextChar() {
+    if (pIndex >= messageText.length) return;
+
+    if (charIndex === 0) {
+      currentP = document.createElement("p");
+      container.appendChild(currentP);
+    }
+
+    currentP.textContent += messageText[pIndex][charIndex];
+    charIndex++;
+
+    if (charIndex < messageText[pIndex].length) {
+      setTimeout(typeNextChar, 40); // kecepatan per huruf (ms)
+    } else {
+      charIndex = 0;
+      pIndex++;
+      setTimeout(typeNextChar, 500); // jeda antar paragraf
+    }
+  }
+
+  typeNextChar();
+}
+
+  
+  document.querySelectorAll('.joy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const dir = btn.dataset.dir;
+      if (gameOver) return;
+      switch (dir) {
+        case 'left': movePiece(-1, 0); break;
+        case 'right': movePiece(1, 0); break;
+        case 'down': movePiece(0, 1); break;
+        case 'up': rotatePiece(); break;
+      }
+      draw();
+    });
+  });
+
+function renderDatePage() {
+  const screen = document.getElementById("screen");
+
+  screen.innerHTML = `
+    <div class="page active" id="date" style="text-align:center; padding: 20px; margin-top: 70px;">
+      <p style="font-size: 0.6rem; margin-bottom: 10px;"><strong>Schedule a Date</strong></p>
+      
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100%;">
+        <label for="datePicker" style="align-self: flex-start; font-size: 0.5rem;">Choose a date:</label>
+        <input type="date" id="datePicker" style="width: 100%; max-width: 180px; font-size: 0.5rem; padding: 3px;"/>
+
+        <label for="timePicker" style="align-self: flex-start; font-size: 0.5rem;">Choose a time:</label>
+        <input type="time" id="timePicker" style="width: 100%; max-width: 180px; font-size: 0.5rem; padding: 3px;"/>
+
+        <p style="align-self: flex-start; font-size: 0.5rem; margin-top: 8px;"><strong>Select an activity:</strong></p>
+        <div id="imageOptions" style="display: flex; justify-content: center; gap: 6px;">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQftcRgSpR1aIRvyF425-5g1AuEu-C3XH9zCw&s"
+               alt="Gambar 1"
+               style="width: 70px; height: 60px; cursor: pointer; border-radius: 6px;"
+               data-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQftcRgSpR1aIRvyF425-5g1AuEu-C3XH9zCw&s" />
+        </div>
+
+        <button id="showSummaryBtn" style="
+          margin-top: 11px;
+          padding: 4px 10px;
+          font-size: 0.45rem;
+          background: #339933;
+          color: #fff;
+          border-radius: 6px;
+          font-family: 'Press Start 2P', monospace;
+          box-shadow: inset 0 0 6px #77cc77;
+          cursor: pointer;
+        ">Continue</button>
+      </div>
+    </div>
+  `;
+
+
+  const imgs = screen.querySelectorAll('#imageOptions img');
+  imgs.forEach(img => {
+    img.addEventListener('click', () => {
+      imgs.forEach(i => i.classList.remove('selected'));
+      img.classList.add('selected');
+    });
+  });
+
+  const style = document.createElement('style');
+  style.innerHTML = `
+    #imageOptions img.selected {
+      border: 3px solid #b86a8b;
+    }
+  `;
+  document.head.appendChild(style);
+
+  screen.appendChild(createBackButton());
+
+  document.getElementById('showSummaryBtn').addEventListener('click', () => {
+    const date = document.getElementById('datePicker').value;
+    const time = document.getElementById('timePicker').value;
+    const selectedImg = screen.querySelector('img.selected');
+    const imgSrc = selectedImg ? selectedImg.dataset.src : null;
+
+
+
+  console.log("Selected image:", selectedImg);
+  console.log("Gambar asli dipilih:", imgSrc);
+
+  if (!date || !time || !selectedImg) {
+    alert('Mohon pilih tanggal, waktu, dan gambar terlebih dahulu!');
+    return;
+  }
+
+  // === Render summary di dalam #screen ===
+  screen.innerHTML = `
+      <div class="page active" id="summary" style="text-align:center; padding:8px;">
+        <p><strong>Schedule a Date!</strong></p>
+        <p>${date}</p>
+        <p>${time}</p>
+        <img src="${imgSrc}" style="width:70px; border-radius:10px; margin-top:10px;" id="summaryImg">
+      </div>
+    `;
+    screen.appendChild(createBackButton());
+
+    const summaryImage = screen.querySelector('#summaryImg');
+
+html2canvas(document.body, {
+  useCORS: true,
+  allowTaint: false,
+  backgroundColor: null,
+  logging: true
+}).then(canvas => {
+  const link = document.createElement('a');
+  link.href = canvas.toDataURL('image/png');
+  link.download = 'Kirim ke aku yaaa';
+  link.click();
+});
+  });
+}
+
+
+  function renderMusicPage() {
+    screen.innerHTML = `
+      <div class="page active" id="music" style="text-align:center;">
+        <p>Your Favorite Song:</p>
+        <iframe 
+          style="border-radius:12px" 
+          src="https://open.spotify.com/embed/track/0O6S5EXXypwoctK6gdmodx?utm_source=generator" 
+          width="280" 
+          height="80" 
+          frameborder="0" 
+          allowfullscreen="" 
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+        </iframe>
+      </div>
+    `;
+    screen.appendChild(createBackButton());
+  }
+
+  // Tetris Game Code and Render
+  // Basic Tetris Implementation (simplified)
+let score = 0;
+const scoreElement = document.getElementById('score');
+const gameOverElement = document.getElementById('game-over');
+  const canvasWidth = 9;
+  const canvasHeight = 9;
+  const blockSize = 20;
+
+  // Tetromino shapes
+  const tetrominoes = [
+    [[1,1,1,1]], // I
+    [[1,1],[1,1]], // O
+    [[0,1,0],[1,1,1]], // T
+    [[1,0,0],[1,1,1]], // J
+    [[0,0,1],[1,1,1]], // L
+    [[1,1,0],[0,1,1]], // S
+    [[0,1,1],[1,1,0]]  // Z
+  ];
+
+  // Colors for tetrominoes
+  const colors = [
+    '#00ffff', '#ffff00', '#800080', '#0000ff', '#ffa500', '#00ff00', '#ff0000'
+  ];
+
+  let tetrisCanvas, ctx;
+  let board;
+  let currentPiece;
+  let currentX, currentY;
+  let currentColor;
+  let dropInterval;
+  let gameOver = false;
+
+  function initTetris() {
+    tetrisCanvas = document.createElement('canvas');
+    tetrisCanvas.id = 'tetris';
+    tetrisCanvas.width = canvasWidth * blockSize;
+    tetrisCanvas.height = canvasHeight * blockSize;
+    screen.innerHTML = '';
+    screen.appendChild(tetrisCanvas);
+    ctx = tetrisCanvas.getContext('2d'); 
+    board = [];
+    for(let y=0; y<canvasHeight; y++) {
+      board[y] = new Array(canvasWidth).fill(0);
+    }
+
+    spawnPiece();
+    draw();
+
+    document.addEventListener('keydown', handleKey);
+
+    dropInterval = setInterval(() => {
+      if(!movePiece(0, 1)) {
+        placePiece();
+        spawnPiece();
+        if(collides(currentPiece, currentX, currentY)) {
+          gameOver = true;
+          clearInterval(dropInterval);
+          alert('Game Over!');
+          document.removeEventListener('keydown', handleKey);
+          renderMessagePage();
+        }
+      }
+      draw();
+    }, 600);
+
+    screen.appendChild(createBackButton());
+  }
+
+  function spawnPiece() {
+    const index = Math.floor(Math.random()*tetrominoes.length);
+    currentPiece = tetrominoes[index];
+    currentColor = colors[index];
+    currentX = Math.floor((canvasWidth - currentPiece[0].length)/2);
+    currentY = 0;
+  }
+
+  function collides(piece, x, y) {
+    for(let py=0; py<piece.length; py++) {
+      for(let px=0; px<piece[py].length; px++) {
+        if(piece[py][px]) {
+          let bx = x + px;
+          let by = y + py;
+          if(bx < 0 || bx >= canvasWidth || by >= canvasHeight) return true;
+          if(by >= 0 && board[by][bx]) return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  function movePiece(dx, dy) {
+    if(!collides(currentPiece, currentX + dx, currentY + dy)) {
+      currentX += dx;
+      currentY += dy;
+      return true;
+    }
+    return false;
+  }
+
+  function rotate(piece) {
+    let newPiece = [];
+    let rows = piece.length;
+    let cols = piece[0].length;
+    for(let x=0; x<cols; x++) {
+      let newRow = [];
+      for(let y=rows-1; y>=0; y--) {
+        newRow.push(piece[y][x]);
+      }
+      newPiece.push(newRow);
+    }
+    return newPiece;
+  }
+
+  function rotatePiece() {
+    let rotated = rotate(currentPiece);
+    if(!collides(rotated, currentX, currentY)) {
+      currentPiece = rotated;
+    }
+  }
+
+  function placePiece() {
+    for(let py=0; py<currentPiece.length; py++) {
+      for(let px=0; px<currentPiece[py].length; px++) {
+        if(currentPiece[py][px]) {
+          if(currentY + py >= 0) {
+            board[currentY + py][currentX + px] = currentColor;;
+          }
+        }
+      }
+    }
+    clearLines();
+  }
+  
+
+  function clearLines() {
+    for(let y=canvasHeight-1; y>=0; y--) {
+      if(board[y].every(cell => cell !== 0)) {
+        board.splice(y, 1);
+        board.unshift(new Array(canvasWidth).fill(0));
+        y++;
+      }
+    }
+  }
+
+  function draw() {
+    ctx.fillStyle = '#ff66b2';
+    ctx.fillRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
+
+    for(let y=0; y<canvasHeight; y++) {
+      for(let x=0; x<canvasWidth; x++) {
+        if(board[y][x]) {
+          ctx.fillStyle = board[y][x];
+          ctx.fillRect(x*blockSize, y*blockSize, blockSize, blockSize);
+          ctx.strokeStyle = '#003300';
+          ctx.strokeRect(x*blockSize, y*blockSize, blockSize, blockSize);
+        }
+      }
+    }
+
+    if(currentPiece) {
+      for(let py=0; py<currentPiece.length; py++) {
+        for(let px=0; px<currentPiece[py].length; px++) {
+          if(currentPiece[py][px]) {
+            let drawX = (currentX + px)*blockSize;
+            let drawY = (currentY + py)*blockSize;
+            ctx.fillStyle = currentColor;
+            ctx.fillRect(drawX, drawY, blockSize, blockSize);
+            ctx.strokeStyle = '#003300';
+            ctx.strokeRect(drawX, drawY, blockSize, blockSize);
+          }
+        }
+      }
+    }
+  }
+
+  function handleKey(e) {
+    if(gameOver) return;
+    switch(e.key) {
+      case 'ArrowLeft':
+        movePiece(-1,0);
+        break;
+      case 'ArrowRight':
+        movePiece(1,0);
+        break;
+      case 'ArrowDown':
+        movePiece(0,1);
+        break;
+      case 'ArrowUp':
+        rotatePiece();
+        break;
+    }
+    draw();
+  }
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      if(dropInterval) {
+        clearInterval(dropInterval);
+        dropInterval = null;
+      }
+      document.removeEventListener('keydown', handleKey);
+
+      switch(button.dataset.page) {
+        case 'message': renderMessagePage(); break;
+        case 'date': renderDatePage(); break;
+        case 'music': renderMusicPage(); break;
+        case 'tetris': 
+          gameOver = false;
+          initTetris(); 
+          break;
+      }
+    });
+  });
+
+  renderWelcomePage();
+
+</script>
+</body>
+</html>
